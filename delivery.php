@@ -5,9 +5,6 @@ use Kfc\Libs\Cart;
 use Kfc\Libs\Product;
 use Kfc\Libs\User;
 use Kfc\Libs\Session;
-use Kfc\Libs\Order;
-use Kfc\Libs\Order_user;
-use Kfc\Libs\Adresa;
 if($session->isSignedIn()){
     $userr = new User();
     $userEmail = $_SESSION['userId'];
@@ -339,33 +336,6 @@ if ( window.history.replaceState ) {
       <div id="order" >
       <p class="h5 text-dark fw-bold">KFC GJILAN</p>
       <p class="">Min subtotal order: 5.00€</p>
-      <?php
-  $orderUser = new Order_user();
-if(isset($_POST['checkout'])){
-echo '<script type="text/javascript">';
-echo ';(function () {';
-echo 'var reloads = [0],';
-echo "storageKey = 'reloadIndex',";
-echo 'reloadIndex = parseInt(localStorage.getItem(storageKey), 10);';
-echo '';
-echo 'if (reloadIndex >= reloads.length || isNaN(reloadIndex)) {';
-echo 'localStorage.removeItem(storageKey);';
-echo 'return;';
-echo '}';
-echo '';
-echo 'setTimeout(function(){';
-echo 'window.location.reload();';
-echo '}, reloads[reloadIndex]);';
-echo '';
-echo 'localStorage.setItem(storageKey, parseInt(reloadIndex, 10) + 1);';
-echo '}());';
-echo '</script>';
-  echo("<script>location.href = 'checkout.php'</script>");
-  $orderUser->setEmail($user->getId());
-  $orderUser->create();
-}
-?>
-
       <form method="post">
       <a href="checkout.php"><button class="btn btn-danger w-75 py-2 fw-bold" style="font-size:20px" type="submit" name="checkout" >CHECKOUT</button></a>
       </form>

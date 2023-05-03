@@ -1,4 +1,10 @@
-<?php  require_once "autoloader.php"; ?>
+<?php 
+require_once "autoloader.php";
+use Kfc\Libs\Cart;
+use Kfc\Libs\User;
+use Kfc\Libs\Session;
+$session = new Session();
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,22 +48,43 @@
                   </div>
                 </li>
                 <?php
-                  
+                  if(!$session->isSignedIn()){
                     echo "<li class='nav-item me-3' >";
                     echo "<a href='login.php' class='nav-link text-danger' id='loginli'><i class='fa fa-sign-in me-1'></i>LOGIN</a>";
                     echo "</li>";
                     echo "<li class='nav-item me-3'>";
                     echo "<a href='signup.php' class='nav-link text-danger' id='signupli'><i class='fa fa-user-plus me-1'></i>SIGN UP</a>";
                     echo "</li>";
-                  
+                  }
+                ?>
+                <?php
+                  if($session->isSignedIn()){
+                    echo "<li class='nav-item me-3'>";
+                    echo "<a href='myaccount.php' class='nav-link text-danger'><i class='fa-solid fa-user me-1'></i>MY ACCOUNT</a>";
+                    echo "</li>";
+                    echo "<li class='nav-item me-3'>";
+                    echo "<a href='logout.php' class='nav-link text-danger'><i class='fa-solid fa-power-off me-1'></i>LOGOUT</a>";
+                    echo "</li>";
+                    
+                    $userEmail = $_SESSION['userId'];
+                    $user = new user();
+                    $u = $user->find_id($userEmail);
+                  }
                 ?>
                 <li class="nav-item" style="max-width:85px" >
                   <a href="#" class="nav-link text-white px-3 rounded fw-bold bg-danger" id="shoppingbag"><i class="fa fa-bag-shopping me-2"></i>
-                    <p class="d-inline"></p>
+                    <p class="d-inline">  
+                    <?php 
+                    if($session->isSignedIn()){
+                  $cart = new Cart();
+                  $value = $cart->getSasiaTotale($user->getId());
+                  echo $value;
+                    }
+                  
+                  ?></p>
                   </a>
               </li>
             </ul>
         </div>
     </div>
   </nav>
-
