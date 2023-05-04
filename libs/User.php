@@ -63,9 +63,7 @@ class User extends Database{
 	public function setRoli($roli){
 		$this->roli = $roli;
 	}
-
 	
-
   public function verifyUser($email, $password)
     {
         $sql = "SELECT * FROM users";
@@ -89,15 +87,6 @@ class User extends Database{
         return $result->fetch();
     }
 
-		public function profileInitials($id){
-			$this->id = $id;
-			$sql = "SELECT LEFT(emri, 1), LEFT(mbiemri, 1)  FROM users where id = :id";
-			$stmt = $this->prepare($sql);
-			$stmt->bindParam(':id', $this->id);
-			$stmt->execute();
-			$stmt->setFetchMode(PDO::FETCH_CLASS, __NAMESPACE__ . "\\{$this->getClassName()}");
-			return $stmt->fetch();
-		}
 }
 
 

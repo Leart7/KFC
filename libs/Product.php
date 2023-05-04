@@ -97,29 +97,5 @@ class Product extends Database{
 		$stmt->setFetchMode(PDO::FETCH_CLASS, __NAMESPACE__ . "\\" .$this->getClassName());
 		return $stmt->fetchAll();
 	}
-
-	public function create()
-    {
-        try {
-            $this->startupLoad($this->photoImage);
-            $this->image_url = $this->filename;
-            $uploadFile = $this->uploadFile();
-            if ($uploadFile) {
-                if (parent::create()) {
-                    return true;
-                }
-            } else {
-                foreach ($this->errors as $error) {
-                    echo $error . "<br>";
-                }
-            }
-        } catch (Exception $e) {
-            echo "User " . $e->getMessage();
-        }
-    }
-
-
-	
-
 }
 ?>
