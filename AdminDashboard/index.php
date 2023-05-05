@@ -10,7 +10,6 @@
         <?php 
 				include "header.php";
 				use Kfc\Libs\Product;
-				use Kfc\Libs\Order;
 				use Kfc\Libs\Adresa;
 				?>
 
@@ -29,8 +28,6 @@
             <!-- row -->
 						<?php
 							$product = new Product();
-							$order = new Order();
-							$trendingProducts = $order->trendingProducts();
 						?>
 			<div class="container-fluid">
 				<div class="row">
