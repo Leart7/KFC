@@ -178,7 +178,7 @@ use Kfc\Libs\Homecategory;
 </section>
 
 
-<div class="container d-flex justify-content-center" id="decoration" >
+<div class="container d-flex justify-content-center" id="decoration" style="height:5vh" >
   <div class="bg-danger mx-2 " style="width: 2%;"></div>
   <div class="bg-danger mx-2 " style="width: 2%;"></div>
   <div class="bg-danger mx-2 " style="width: 2%;"></div>

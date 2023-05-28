@@ -18,6 +18,8 @@ $homecategory = new Homecategory();
                     $product->setHome_category_id($_POST['homecategory']);
                     $product->setPhotoImage($_FILES['image']);
                     $product->create();
+                    echo("<script>location.href = 'ecom-product-grid.php'</script>");
+                     $session->message("Product added successfully!");
                      
                 }
 

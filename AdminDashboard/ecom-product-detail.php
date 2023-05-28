@@ -54,6 +54,7 @@
 
           if(isset($_POST['remove'])){
             $p->delete();
+            echo("<script>location.href = 'ecom-product-grid.php'</script>");
             $session->message("Product deleted successfully!");
           }
           

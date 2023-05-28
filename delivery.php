@@ -72,11 +72,11 @@ if($session->isSignedIn()){
               foreach($products as $produktet4){
                 $id = $produktet4->getId();
               echo "<div class='col-md-6'>";
-              echo "<div class='col-md-12 bg-white product-container2 d-flex ' data-bs-toggle='modal' data-bs-target='#myModal$id' style='height:10vh;'>";    
+              echo "<div class='col-md-12 bg-white product-container2 d-flex ' data-bs-toggle='modal' data-bs-target='#myModal$id' style='height:10vh; position:relative'>";    
               $cart = new Cart();
               $shumaSasise = $cart->getSasiaProduktit($id,$user->getId());
               if($shumaSasise > 0){
-                echo "<div class='bg-danger px-2 h-25 text-white fw-bold'>{$shumaSasise}</div>";
+                echo "<div class='bg-danger px-2 h-25 text-white fw-bold' style='position:absolute; top:0; left:0;'>{$shumaSasise}</div>";
               }
               echo "<img src='images/{$produktet4->getPhoto()}' alt='' class='h-75 align-self-center px-3'>";
               echo "<p class='fw-bold text-dark mt-3 ms-2 '>{$produktet4->getEmri_produktit()}</p>";
