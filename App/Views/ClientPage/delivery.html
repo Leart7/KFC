@@ -1,0 +1,383 @@
+{% extends "layout/appLayout.html" %}
+
+{% block title %}Library | Dashboard{% endblock %}
+{% block content %}
+
+<div class="container-fluid  ">
+  <div class="row d-flex">
+    <div class="container-fluid col-xxl-9 col-xl-9 col-lg-9 col-md-12 d-flex flex-column border border-top-0 border-bottom-0 border-start-0"  id="maincontainer">
+
+    <section class="" >
+        <img src="images/prekeqitu.png" alt="" class="img-fluid w-100">
+      </section>
+
+      <section class="container ">
+        <p class="h3 text-dark fw-bold ms-4 mt-3">KFC GJILAN</p>  
+      </section>
+
+
+      <div class="container-fluid mt-5">
+  <ul class="nav nav-tabs nav-fill" id="menu" role="tablist" style="font-size:18px">
+  
+
+
+
+      <li class='nav-item' role='presentation'>
+     <button class='nav-link active text-danger fw-bold' id='all-tab' data-bs-toggle='tab' data-bs-target='#all' type='button' role='tab' aria-controls='home' aria-selected='true'>All</button>
+     </li>
+
+     {% for cat in categories %}
+       <li class='nav-item' role='presentation'> 
+      <button class='nav-link text-danger fw-bold' id='{{ cat.name }}' data-bs-toggle='tab' data-bs-target='#{{ cat.id }}' type='button' role='tab' aria-controls='home' aria-selected='false'>{{ cat.name }}</button>
+      </li>
+      {% endfor %}
+    
+  </ul>
+  <div class="container-fluid pe-4">
+          <div class="input-group mx-3 mt-3" >
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass" style="font-size: 24px;"></i></span>
+            </div>
+            <input type="text" class="form-control shadow-none mb-3 " placeholder="Search" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        </div>
+  <div class="container-fluid tab-content mb-5 px-3" id="myTabContent" style="height:100%">
+ 
+   
+      <div class='tab-pane fade show active' id='all' role='tabpanel' aria-labelledby='all-tab'>
+
+            
+        {% for cat in categories %}
+              <p class='h4 mt-4 ms-3 mb-3'>{{ cat.name }}</p>
+              
+              <div class='row g-2 px-3 w-100' id='rowi'>
+              {% for product in cat.products %}
+              <div class='col-md-6'>
+              <div class='col-md-12 bg-white product-container2 d-flex ' data-bs-toggle='modal' data-bs-target='#myModal{{ product.id }}' style='height:10vh; position:relative'>    
+                {% if product.total_quantity > 0 %}
+                <div class='bg-danger px-2 h-25 text-white fw-bold' style='position:absolute; top:0; left:0;'>{{ product.total_quantity }}</div>
+                {% endif %}
+              <img src='images/{{ product.photo }}' alt='' class='h-75 align-self-center px-3'>
+              <p class='fw-bold text-dark mt-3 ms-2 '>{{ product.name }}</p>
+              <p class='text-danger mt-3 ms-auto pe-3'>{{ product.price }}€</p>
+              </div>
+              </div>
+              
+            {% endfor %}
+              </div>
+            {% endfor %}
+            </div>
+
+        {% for cat in categories %}
+ 
+        <div class='tab-pane fade' id='{{ cat.id }}' role='tabpanel' aria-labelledby='{{ cat.name }}'> 
+        <p class='h4 mt-4 ms-3 mb-3'>{{ cat.name }}</p>
+        <div class='row g-2 px-3 w-100 ' id='rowi'>
+          {% for product in cat.products %}
+        <div class='col-md-6'>
+        <div class='col-md-12 bg-white product-container2 d-flex px-3' data-bs-toggle='modal' data-bs-target='#myModal{{ product.id }}' style='height:10vh;  position:relative'>
+          {% if product.total_quantity > 0 %}
+                <div class='bg-danger px-2 h-25 text-white fw-bold' style='position:absolute; top:0; left:0;'>{{ product.total_quantity }}</div>
+                {% endif %}
+        <img src='images/{{ product.photo }}' alt='' class='h-75 align-self-center'>
+        <p class='fw-bold text-dark mt-3 ms-2 '>{{ product.name }}</p>
+        <p class='text-danger mt-3 ms-auto'>{{ product.price }}€</p>
+        </div>
+        </div>
+    {% endfor %}
+                     
+        </div>
+        </div>
+    
+    {% endfor %}
+    </div>
+</div>
+
+
+   {% for product in products %}
+            <div class='modal' id='myModal{{ product.id }}'> 
+             <div class='modal-dialog modal-dialog-scrollable modal-xl' id='modalwidth'>
+             <div class='modal-content'>
+            <div class='modal-header'>
+            <h4 class='modal-title ms-4 text-danger'>{{ product.name }}</h4>
+            <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+            </div>
+            <div class='modal-body'>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Photo Gallery</p>
+            <div class='ms-4' style='height:15vh'>
+            <img src='images/{{ product.photo }}' alt='' class='h-75'>
+            </div>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Shto Menu</p>
+            <div class='form-check ms-5'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check1' name='option1' value='something' >
+            <label class='form-check-label  w-100' for='check1'>Menu me Potato Wedges + Pije</label>
+            </div>
+            <p class='ms-4 text-dark mt-4' style='font-size: 18px;'>SHTO (max 10)</p>
+            <div class='form-check ms-5'>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Potato Wedges</label>
+            <p class='text-danger me-3'>+1.49€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Mayonaisse</label>
+            <p class='text-danger me-3'>+0.10€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Ketchup</label>
+            <p class='text-danger me-3'>+0.10€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Heineken</label>
+            <p class='text-danger me-3'>+2.49€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Uje</label>
+            <p class='text-danger me-3'>+0.79€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Miser</label>
+            <p class='text-danger me-3'>+0.69€</p>
+             </div>
+            </div>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Special Instructions</p>
+            <form class='mx-4'>
+            <div class='mb-3'>
+             <input type='text' class='form-control shadow-none pb-5'  id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Add any special instructions' style='height: 8vh;'>
+            </div>
+            </form>
+            </div>
+            <div class='modal-footer d-flex align-items-center justify-content-between'>
+            <form method='post' target='frame'>
+            <button class='btn btn-transparent shadow-none text-secondary ms-4 minus' style='font-size: 50px;' name='minus{$produkti->getId()}'><p class='minuscontent'>-</p></button>
+            <button class='btn btn-transparent shadow-none text-danger me-auto plus' style='font-size: 50px;' name='plus{$produkti->getId()}'><p>+</p></button>
+            </form>
+            
+              
+            
+            <form method='post' action="/phpushtrime/KFC_advanced/public/add-product" id="formatest">
+            <div class='d-flex'>
+            <input type="hidden" name="idprodukti" value="{{ product.id }}">
+            <!-- {% if product.carts is not empty %} -->
+            {% for cart in product.carts %}
+              <!-- {% if cart.quantity == 1 %}
+                <button class='btn btn-danger px-5 py-3 d-flex justify-content-center align-items-center fw-bold butoni ' name='shto{{ product.id }}'><input class='px-2 py-2 number' name='vlera' value='1'>Add</button>
+              {% else %}
+                <button class='btn btn-danger px-5 py-3 d-flex justify-content-center align-items-center fw-bold butoni ' name='shto{{ product.id }}'><input class='px-2 py-2 number' name='vlera' value='{{ cart.quantity }}'>Add</button>
+              {% endif %} -->
+            {% endfor %}
+          <!-- {% else %} -->
+            <button class='btn btn-danger px-5 py-3 d-flex justify-content-center align-items-center fw-bold butoni ' name='shto{{ product.id }}'><input class='px-2 py-2 number' name='vlera' value='1'>Add</button>
+          {% endif %}
+          </div>
+            </form>
+            
+            </div>
+            </div>
+            </div>
+            </div>
+            {% endfor %}
+
+   
+            <input type='hidden' id='vlerasasise' class='fw-bold display-1 text-dark' value='{{ numofproducts }}'>
+
+            {% for cart in cartproducts %}
+
+            
+            <div class='modal' id='myModaledit{{ cart.product.id }}'>
+             <div class='modal-dialog modal-dialog-scrollable modal-xl'>
+             <div class='modal-content'>
+            <div class='modal-header'>
+            <h4 class='modal-title ms-4 text-danger'>{{ cart.product.name }}</h4>
+            <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+            </div>
+            <div class='modal-body'>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Photo Gallery</p>
+            <div class='ms-4' style='height:15vh'>
+            <img src='images/{{ cart.product.photo }}' alt='' class='h-75'>
+            </div>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Shto Menu</p>
+            <div class='form-check ms-5'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check1' name='option1' value='something' >
+            <label class='form-check-label  w-100' for='check1'>Menu me Potato Wedges + Pije</label>
+            </div>
+            <p class='ms-4 text-dark mt-4' style='font-size: 18px;'>SHTO (max 10)</p>
+            <div class='form-check ms-5'>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Potato Wedges</label>
+            <p class='text-danger me-3'>+1.49€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Mayonaisse</label>
+            <p class='text-danger me-3'>+0.10€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Ketchup</label>
+            <p class='text-danger me-3'>+0.10€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Heineken</label>
+            <p class='text-danger me-3'>+2.49€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Uje</label>
+            <p class='text-danger me-3'>+0.79€</p>
+             </div>
+            <div class='my-3 d-flex formdiv'>
+            <input class='form-check-input bg-secondary shadow-none' type='checkbox' id='check2' name='option1' value='something' >
+            <label class='form-check-label w-100 ps-2' for='check2'>Miser</label>
+            <p class='text-danger me-3'>+0.69€</p>
+             </div>
+            </div>
+            <p class='ms-4 text-dark' style='font-size: 18px;'>Special Instructions</p>
+            <form class='mx-4'>
+            <div class='mb-3'>
+             <input type='text' class='form-control shadow-none pb-5'  id='exampleInputEmail1' aria-describedby='emailHelp' placeholder='Add any special instructions' style='height: 8vh;'>
+            </div>
+            </form>
+            </div>
+            <div class='modal-footer d-flex align-items-center justify-content-between'>
+            <form method='post' target='frame' >
+              <button class='btn btn-transparent shadow-none text-secondary ms-4 minustwo' style='font-size: 50px;' name='minustwo{$produkti->getId()}'><p class='minuscontenttwo'>-</p></button>
+            <button class='btn btn-transparent shadow-none text-danger me-auto plustwo' style='font-size: 50px;' name='plustwo{$produkti->getId()}'><p>+</p></button>
+            </form>
+
+            <form method='post'  action="/phpushtrime/KFC_advanced/public/update-product">
+            <div class='d-flex'>
+              <input type="hidden" name="idprodukti" value="{{ cart.id }}">
+            <button class='btn btn-danger px-5 py-3 d-flex justify-content-center align-items-center fw-bold butoni' style='width:500px' name='shtotwo{$produkti->getId()}'><input class='px-3 py-2 numbertwo ' name='vlera' value='{{ cart.quantity }}'>OK</button>
+            </div>
+            </form>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            {% endfor %}
+
+        
+
+    </div>
+
+    
+<div class="container-fluid col-xxl-3 col-xl-3 col-lg-3 col-md-12  border border-top-0 border-end-0"  id="sidebar" >
+      <div class="d-flex flex-column text-center align-items-center w-100" id="" style="height:100%">
+      <div class="position-fixed" style="width: 25.5%;">
+
+      
+        <p class="h3 text-danger mt-4 mb-3 fw-bold">YOUR ORDER</p>
+      <img src="images/empty-cart.png" id="foto" alt="" class="img-fluid mt-5" style="width:40%" >
+      <p class="h5 text-secondary mt-5" id="emptyorder">Your order is empty.</p>
+      <div id="order" >
+      <p class="h5 text-dark fw-bold">KFC GJILAN</p>
+      <p class="">Min subtotal order: 5.00€</p>
+
+
+      <form method="post" action="/phpushtrime/KFC_advanced/public/checkout-create" >
+        <input type="hidden" id="totalcheckout" value="{{ totalprice }}">
+      <button class="btn btn-danger w-75 py-2 fw-bold" style="font-size:20px" type="submit" name="checkout" id="checkout" >CHECKOUT</button>
+      </form>
+
+      <table class="table  table-borderless w-100">
+        <tbody>
+        {% for cart in cartproducts %}
+        
+
+            <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0' >
+            <td class=''><p class='text-danger mt-3 fw-bold d-inline  w-25' id='sasia'>{{ cart.quantity }}</p>
+            
+            <form method='post' id='shtimi' class='d-inline' action="/phpushtrime/KFC_advanced/public/delete-cartproduct">
+              <input type="hidden" name="idcart" value="{{ cart.id }}">
+            <select class='form-select d-inline text-danger shadow-none ms-2' name='lista' aria-label='Default select example' style='width:2%;' id='lista' onchange='this.form.submit()' >
+              <option value="" selected style="display: none;"></option>
+              <option value='0'>Remove</option>
+            {% for i in range(1, 100) %}
+              <option value='{{ i }}'>{{ i }}</option>
+            {% endfor %}
+            </select>
+            </form>
+            </td>
+           
+            <td class=' w-25'><p class=' fw-bold mt-3'>{{ cart.product.name }}</p></td>
+            <td class=' w-25'></td>
+            
+            <td class='w-25 pe-4'><span class='fas fa-edit edit me-2' data-bs-toggle='modal' data-bs-target='#myModaledit{{ cart.product_id }}' id='lapsi' style='color:green;font-size:20px' ></span>{{ cart.total_price }}€
+              
+            </td>
+            
+            
+          </tr>
+            {% endfor %}
+           
+            
+          
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0'>
+          <td class='px-3'>Subtotal</td>
+          <td class='me-4'>{{ totalprice }}€</td> 
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0 '>
+          <td class='px-3'>Tax(0%)</td>
+          <td class='me-4'>0.00€</td>
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0'>
+          <td class='px-3'>Delivery Fee</td>
+          <td class='me-4'>0.00€</td> 
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center text-dark border border-start-0 border-top-0 border-end-0' id='vat'>
+          <td class='px-3'>
+            {{ numofproducts }}
+          </td> 
+          <td>Total including VAT(18%)</td> 
+          <td class='px-3 me-3'>{{ totalprice }}€</td> 
+          </tr>
+          </tbody>
+          </table> 
+        </div>
+    </div>
+    </div>
+        </div>
+    </div>
+  </div>   
+  <form action="" method="post">
+    <input type="hidden" name="testi" value="3">
+  </form>
+
+  <script>
+ $(document).ready(function() {
+  // Listen for the form submission event
+  $('#formatest').submit(function(e) {
+    e.preventDefault(); // Prevent the default form submission
+
+    // Get the form data
+    var formData = $(this).serialize();
+
+    // Send an AJAX request
+    $.ajax({
+      type: 'POST',
+      url: '/phpushtrime/KFC_advanced/public/add-product',
+      data: formData,
+      success: function(response) {
+        // Handle the response from the server
+        // For example, update the cart total or display a success message
+        console.log(response);
+      },
+      error: function(xhr, status, error) {
+        // Handle any errors
+        console.log(error);
+      }
+    });
+  });
+});
+
+  </script>
+{% endblock %}
