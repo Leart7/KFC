@@ -1,0 +1,272 @@
+{% extends "layout/appLayout.html" %}
+
+{% block title %}Library | Dashboard{% endblock %}
+{% block css %}
+<style>
+  .cursor{
+    cursor: default;
+  }
+
+  .cursor:focus {
+  outline: none;
+}
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid  ">
+  <div class="row d-flex">
+    <div class="container-fluid col-xxl-9 col-xl-9 col-lg-9 col-md-12 d-flex flex-column border border-top-0 border-bottom-0 border-start-0 align-items-center "  id="maincontainer">
+    <div class="w-75">
+      <hr>
+        <form class="mt-4 w-75 me-3 ms-auto " method="post" action="/phpushtrime/KFC_advanced/public/order-create">
+      <div class="mb-3 input-control">
+          <label class="text-dark fw-bold mb-3">User Details</label>
+          <input type="text" class="form-control shadow-none" id="name" aria-describedby="emailHelp" placeholder="Name" name="name" value="{{ user.name }}" onkeyup="validateName(); passValue()">
+          <div class="error"></div>
+      </div>
+      <div class="mb-3 input-control">
+          <input type="text" class="form-control shadow-none" id="lastname" aria-describedby="emailHelp" placeholder="Last name" name="lastname" value="{{ user.surname }}" onkeyup="validateLastName(); passSurname()">
+          <div class="error"></div>
+      </div>
+      <div class="mb-3 input-control">
+          <input type="email" readonly class="form-control shadow-none" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="email" value="{{ user.email }}" onkeyup="validateEmail1()">
+          <div class="error"></div>
+      </div>
+      <div class="mb-3 input-control">
+          <input type="text" class="form-control shadow-none" id="phone" placeholder="Phone / Mobile" name="phone" value="{{ user.phone }}" onkeyup="validatePhone(); passPhone()">
+          <div class="error"></div>
+      </div>
+      <div class="input-group mb-3">
+  <input type="text" class="form-control shadow-none" placeholder="Discount coupon" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-danger px-3 fw-bold" type="button">Apply</button>
+  </div>
+</div>
+  </form>
+  <hr class="mt-4">
+      </div>
+      <div class="w-75">
+        <div class="w-75 ms-auto me-3">
+        <p class="text-dark fw-bold">Address</p>
+        <img src="images/staticmap.png" alt="" class="w-100">
+        
+        <div class="d-flex justify-content-between ">
+          <div class="d-flex flex-column ">
+            <div class=" input-control">
+              <div class="error text-danger fw-bold"></div>
+              <input type='text' readonly class=' border-0 text-dark fw-bold mt-2 cursor' id="address" value='{{ address.address }}' onkeyup='validateAddress()' >
+          </div>
+          <div class=" input-control">
+            <input type='text' readonly class='border-0 text-muted noborder cursor' style='font-size:12px; margin-top:-1vh' value="{{ address.notes }} ">
+          </div>
+          </div>
+        
+          {% if address is not null %}
+        <button class="btn btn-outline-danger btn-sm rounded-pill px-3 h-25 mt-2" data-bs-toggle='modal' data-bs-target='#myModaledit'>Change</button>
+
+        <div class='modal' id='myModaledit'>
+          <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+          
+          
+          <div class="modal-header">
+          <h4 class="modal-title text-danger">EDIT ADDRESS</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          
+          
+          <div class="modal-body">
+          <form method="post" action="/phpushtrime/KFC_advanced/public/address-edit2">
+          <div class="form-group">
+            <div class="error text-danger fw-bold"></div>
+            <input type="hidden" name="addressid" value="{{ address.id }}">
+          <input type='text' class='form-control shadow-none my-3 addressinput' id='addresssss' placeholder='Address' value='{{ address.address }}' name='address' onkeyup="validateAddress3()">
+          </div>
+          <div class="form-group">
+          <input type='text' class='form-control shadow-none addressinput' id='addressnotes' placeholder='Address Notes' value='{{ address.notes }}' name='addressnotes'>
+          </div>
+  
+         
+          </div>
+          
+          
+          <div class="modal-footer d-flex justify-content-center">
+          <button type="submit" class="btn btn-danger fw-bold px-5" name="editaddress" onclick="return validateInputs3()">SAVE</button>
+          </div>
+          </form>
+          
+          </div>
+          </div>
+          </div>
+        {% else %}
+        <button class="btn btn-outline-danger btn-sm rounded-pill px-3 h-25 mt-2" data-bs-toggle='modal' data-bs-target='#addAddress'>Add</button>
+
+        <div class='modal' id='addAddress'>
+          <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+          
+          
+          <div class="modal-header">
+          <h4 class="modal-title text-danger">ADD ADDRESS</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          
+          
+          <div class="modal-body">
+          <form method="post" action="/phpushtrime/KFC_advanced/public/address-create2">
+          <div class="form-group">
+          <input type='text' class='form-control shadow-none my-3 addressinput' id='address' name='address' placeholder='Address' >
+          </div>
+          <div class="form-group">
+          <input type='text' class='form-control shadow-none addressinput' id='addressnotes' name='addressnotes' placeholder='Address Notes'>
+          </div>
+          </div>
+          
+          
+          <div class="modal-footer d-flex justify-content-center">
+          <button type="submit" class="btn btn-danger fw-bold px-5" name="addaddress">SAVE</button>
+          </form>
+          </div>
+          
+          </div>
+          </div>
+          </div>
+        {% endif %}
+        </div>
+        </div>
+  <hr class="">
+      </div>
+      <div class="w-75">
+        <div class="w-75 ms-auto me-3">
+        <span class="text-dark fw-bold">Delivery time</span><span class="text-secondary fw-bold ms-4">ASAP</span>
+        </div>
+      
+  <hr class="">
+      </div>
+      <div class="w-75">
+        <div class="w-75 ms-auto me-3">
+        <p class="text-dark fw-bold">Payment method</p>
+        <label class="form-control border-0 labela" style="font-size:18px">
+  <input type="radio" name="radio" value="option2" id="option2" style="height:25px; width:25px; vertical-align: middle;" />
+  Cash (We do not accept Banknotes larger than 50 EUR)
+</label>
+<div class="ms-3 mt-3 text-muted" id="extra-text" style="display:none;">
+<p>Don't have exact amount? Let us know how much will you pay</p>
+<hr class="w-100 ms-auto">
+</div>
+
+
+<label class="form-control border-0 mt-3 labela" style="font-size:18px">
+  <input type="radio" name="radio" value="option1" id="option1" style="height:25px; width:25px; vertical-align: middle;" />
+  Card on delivery
+</label>
+        </div>
+      
+  <hr class="w-75 ms-auto">
+      </div>
+    </div>
+
+    <script>
+  // Get the radio buttons and extra text element
+  const option1 = document.getElementById("option1");
+  const option2 = document.getElementById("option2");
+  const extraText = document.getElementById("extra-text");
+
+  // Add an event listener to the radio buttons
+  option1.addEventListener("change", toggleExtraText);
+  option2.addEventListener("change", toggleExtraText);
+
+  // Define the toggleExtraText function
+  function toggleExtraText() {
+    if (option2.checked) {
+      extraText.style.display = "block";
+    } else {
+      extraText.style.display = "none";
+    }
+  }
+</script>
+    
+<div class="container-fluid col-xxl-3 col-xl-3 col-lg-3 col-md-12  border border-top-0 border-end-0"  id="sidebar" >
+      <div class="d-flex flex-column text-center align-items-center w-100 mb-3" id="" >
+      <div class="position-fixed" style="width: 25.5%;">
+
+      <p class="h3 text-danger mt-4 mb-3 fw-bold">YOUR ORDER</p>
+      <div id="order" >
+      <p class="h5 text-dark fw-bold">KFC GJILAN</p>
+      <a href="/phpushtrime/KFC_advanced/public/delivery" class="text-danger mt-4 mb-3 fw-bold" id="editorder">Edit Order</a>
+      <table class="table  table-borderless w-100">
+        <tbody>
+        
+
+          <form method='post'>
+         
+          
+         
+          </form>        
+          {% for cart in cartproducts %}
+            <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0 pe-3' >
+            <td class=''><p class='text-danger mt-3 fw-bold d-inline me-3' id='sasia'>{{ cart.quantity }}<p class=' fw-bold mt-3 d-inline'>{{ cart.product.name }}</p></p>
+            <td ><p class='mt-3 mx-2 d-inline'>{{ cart.product.price }}€</p></td>
+            </tr>
+          {% endfor %}
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0'>
+          <td class='px-3'>Subtotal</td>
+          <td class='px-3'>{{ totalprice }}€</td> 
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0 '>
+          <td class='px-3'>Tax(0%)</td>
+          <td class='px-3'>0.00€</td>
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center  border border-start-0 border-top-0 border-end-0'>
+          <td class='px-3'>Delivery Fee</td>
+          <td class='px-3'>0.00€</td> 
+          </tr>
+          <tr class='d-flex justify-content-between align-items-center text-dark border border-start-0 border-top-0 border-end-0' id='vat'>
+          <td class='px-3'>
+          </td> 
+          <td>Total including VAT(18%)</td> 
+          <td class='px-3'>{{ totalprice }}€</td> 
+          </tr>
+      
+          </tbody>
+          </table> 
+    </div>
+
+          <form method="post" action="/phpushtrime/KFC_advanced/public/order-create">
+            <input type="hidden" name="address" value="{{ address.address }}">
+            <input type="hidden" name="addressnotes" value="{{ address.notes }}">
+            <input type="hidden" name="username2" id="username2" value="{{ user.name }}">
+            <input type="hidden" name="lastname2" id="lastname2"  value="{{ user.surname }}">
+            <input type="hidden" name="phone2" id="phone2"  value="{{ user.phone }}">
+          
+            <button class='btn btn-danger w-75 py-2 fw-bold' style='font-size:20px' name='placeorder' type="submit" onclick="return validateInputs1()">PLACE ORDER</button>
+          </form>
+        
+    </div>
+    </div>
+        </div>
+    </div>
+  </div>        
+  <script src="includes/js/edit-address.js"></script>
+
+  <script src="includes/js/checkout.js"></script>
+ <script>
+  
+function passValue() {
+  var input1Value = document.getElementById("name").value;
+  document.getElementById("username2").value = input1Value;
+}
+
+function passSurname(){
+  var input2Value = document.getElementById("lastname").value;
+  document.getElementById("lastname2").value = input2Value;
+}
+
+function passPhone(){
+  var input3Value = document.getElementById("phone").value;
+  document.getElementById("phone2").value = input3Value;
+}
+ </script>
+
+{% endblock %}

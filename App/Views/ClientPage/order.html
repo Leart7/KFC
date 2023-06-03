@@ -1,0 +1,89 @@
+{% extends "layout/appLayout.html" %}
+
+{% block title %}Library | Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <img src="images/Screenshot (230).png" alt="" class="w-100 img-fluid">
+</div>
+<div class="container-fluid d-flex justify-content-center mt-3 border border-top-0 border-start-0 border-end-0">
+  <form method="post" action="/phpushtrime/KFC_advanced/public/my-orders">
+  <button class="btn btn-danger text-white px-3 py-2 fw-bold mb-3" name="myorders">MY ORDERS</button>
+  </form>
+  
+</div>
+
+
+<div class="container-fluid d-flex justify-content-center mt-3 mb-3">
+  <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-10 col-sm-12">
+    <div class="bg-danger text-white fw-bold text-center py-3">
+      <h5>ORDER NUMBER</h5>
+      <h4>{{ orderid }}</h4>
+
+    </div>
+    <div id="orderbody" class="p-3">
+      <table class="table table-borderless w-100">
+        <tbody>
+          <tr class="text-dark fw-bold " style="font-size:18px">
+            <td class="w-50">From</td>
+            <td>To</td>
+          </tr>
+          <tr>
+            <td>KFC Gjilan</td>
+            <td>{{ order.name }} {{ order.surname }}</td>
+
+          </tr>
+          <tr>
+            <td>KFC Gjilan</td>
+            <td>{{ order.address }} {{ order.addressnotes }}</td>
+          </tr>
+          <tr>
+            <td>080021212 -</td>
+            <td>{{ order.phone }}</td>
+          </tr>
+          <tr>
+            <td>delivery@kfc-ks.com</td>
+            <td>{{ order.orderUser.user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h5 class="text-dark fw-bold ps-1">Your order</h5>
+      <table class="table table-borderless w-100">
+        <tbody>
+            {% for p in products %}
+              <div class='d-flex justify-content-between '>
+             <p><span class='text-danger me-1'>{{ p.quantity }}</span><i class='fa fa-close text-muted me-2' style='font-size:16px'></i>{{ p.product.name }}</p>
+               <p>{{ p.total }}€</p>
+              </div>         
+          
+          
+          
+           
+          {% endfor %}
+          <div class='d-flex justify-content-between border border-start-0 border-end-0 border-bottom-0 my-3'>
+            <p>Subotal</p>
+            <p>{{ totalprice }}€</p>
+          </div>
+          <div class='d-flex justify-content-between'>
+            <p>Tax(0%)</p>
+            <p>0.00€</p>
+          </div>
+          <div class='d-flex justify-content-between border border-start-0 border-end-0 border-top-0'>
+           <p>Delivery Fee</p>
+            <p>0.00€</p>
+          </div>
+          <div class="d-flex justify-content-between text-dark fw-bold border border-start-0 border-end-0 border-top-0" style="font-size:18px">
+            <p class="py-2">Total including VAT (18%)</p>
+            <p class="py-2">{{ totalprice }}€</p>
+          </div>
+        </tbody>
+      </table>
+      <p class="text-center">Payment method: Cash (We do not accept Banknotes larger than 50 EUR)</p>
+      <p class="text-center">Delivery method: Delivery</p>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
