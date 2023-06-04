@@ -1,0 +1,68 @@
+{% extends "layout/welcome.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+  <ul class="nav nav-tabs nav-fill text-muted" id="menu" role="tablist" style="font-size:18px">
+
+
+      <li class='nav-item' role='presentation'>
+     <button class='nav-link active text-secondary' id='{{activeHomeCategory.name}}' data-bs-toggle='tab' data-bs-target='#{{ activeHomeCategory.id }}' type='button' role='tab' aria-controls='home' aria-selected='true'>{{ activeHomeCategory.name }}</button>
+     </li>
+
+     {% for homec in homecategories %}
+       <li class='nav-item' role='presentation'> 
+      <button class='nav-link text-secondary' id='{{ homec.name }}' data-bs-toggle='tab' data-bs-target='#{{ homec.id }}' type='button' role='tab' aria-controls='home' aria-selected='false'>{{ homec.name }}</button>
+      </li>
+      
+      {% endfor %}
+
+  </ul>
+  
+  <div class="tab-content" id="myTabbContent">
+ 
+      <div class='tab-pane fade show active' id='{{ activeHomeCategory.id }}' role='tabpanel' aria-labelledby='{{ activeHomeCategory.name }}'>
+
+
+        <div class='row'>
+            {% for product in activeHomeCategory.products %}
+          <div class='col-xl-3 col-lg-3 col-md-6 display-flex flex-column d-flex flex-column align-items-center'>
+                <a href='/phpushtrime/KFC_advanced/public/product/details?id={{ product.id }}'><img src='images/{{ product.photo }}' alt='' class='img-fluid product' ></a>
+                <a href='/phpushtrime/KFC_advanced/public/product/details?id={{ product.id }}' class='h4 text-muted title' id='product-title'>{{ product.name }}</a>
+                <p class='h2 text-danger fw-bold'>{{ product.price }}€</p>
+                </div>
+            {% endfor %}
+      </div>
+      </div>
+      
+      {% for homec in homecategories %}
+        <div class='tab-pane fade' id='{{ homec.id }}' role='tabpanel' aria-labelledby='{{ homec.name }}'> 
+
+              <div class='row'>
+                {% for product in homec.products %}
+                <div class='col-xl-3 col-lg-3 col-md-6 display-flex flex-column d-flex flex-column align-items-center'>
+                <a href='/phpushtrime/KFC_advanced/public/product/details?id={{ product.id }}'><img src='images/{{ product.photo }}' alt='' class='img-fluid product' ></a>
+                <a href='/phpushtrime/KFC_advanced/public/product/details?id={{ product.id }}' class='h4 text-muted title' id='product-title'>{{ product.name }}</a>
+                <p class='h2 text-danger fw-bold'>{{ product.price }}€</p>
+                </div>
+                {% endfor %}
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
