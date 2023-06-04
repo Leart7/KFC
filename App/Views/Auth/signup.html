@@ -1,0 +1,16 @@
+{% extends "layout/appLayout.html" %} {% block title %}Library | Dashboard{% endblock %} {% block content %}
+Create Account
+
+Already have an account ? Login
+
+CONTINUE AS GUEST
+or
+
+{% if message|length > 0 %}
+{{ message }}
+{% endif %} First Name 
+Email 
+Password 
+ I agree with Terms & Conditions
+SIGN UP
+{% endblock %}

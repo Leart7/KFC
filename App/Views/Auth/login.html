@@ -1,0 +1,16 @@
+{% extends "layout/appLayout.html" %} {% block title %}Library | Dashboard{% endblock %} {% block content %}
+Login
+
+New on Ordering App ? Create an account
+
+CONTINUE AS GUEST
+or
+
+{% if message|length > 0 %}
+{{ message }}
+{% endif %} Email 
+Email
+Password 
+Password
+LOGIN
+{% endblock %}
