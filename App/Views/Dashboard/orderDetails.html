@@ -1,0 +1,36 @@
+{% extends "layout/adminLayout.html" %} {% block title %}Library | Dashboard{% endblock %} {% block content %}
+ORDER NO: {{ orderId }}
+Full Name	{{ orderinfo.name }} {{ orderinfo.surname }}
+Mobile Phone	{{ orderinfo.orderUser.user.phone }}
+Email	{{ orderinfo.orderUser.user.email }}
+Full Address	{{ orderinfo.address }}
+Notes	{{ orderinfo.addressnotes }}
+KFC Gjilan (Phone 080021212)
+
+Address: KFC, Gjilan
+
+Delivery type: Delivery
+
+Delivery Date:
+
+{% for p in orderproducts %}
+DexignZone
+{{ p.quantity }}
+{{ p.product.name }}	{{ p.total }}€{% endfor %}
+Subtotal
+
+{{ totalprice }}€
+
+Tax(0%)
+
+0.00€
+
+Delivery Fee
+
+0.00€
+
+Total including VAT(18%)
+
+{{ totalprice }}€
+
+{% endblock %}
