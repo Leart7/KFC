@@ -1,0 +1,86 @@
+{% extends "layout/adminLayout.html" %}
+
+{% block title %}Library | Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="content-body">
+  <!-- row -->
+<div class="container-fluid">
+<div class="row">
+<div class="col-xl-12">
+      <div class="table-responsive">
+        <table id="example5" class="table table-hover display mb-4 dataTablesCard">
+          <thead>
+                                  <tr>
+              <th class="sorting_1 ps-0 pe-0 text-center no-data-img">
+              </th>	
+                                      <th><strong class="font-w600 wspace-no">Order ID</strong></th>
+                                      <th><strong class="font-w600 wspace-no">Date</strong></th>
+                                      <th><strong class="font-w600 wspace-no">Customer Name</strong></th>
+                                      <th><strong class="font-w600 wspace-no">Location </strong></th>
+                                      <th><strong class="font-w600 wspace-no">Amount</strong></th>
+                                      <th><strong class="font-w600 wspace-no">Status Order</strong></th>
+                                     
+                                  </tr>
+                              </thead>
+          <tbody>
+          {% for o in orders %}
+                  <tr>
+                  <td class="sorting_1 p-0 text-center">
+                  </td>
+                  <td>#{{ o.order_user_id }}</td>
+                  <td>{{ o.created_at }}</td>
+                  <td>{{ o.name }} {{ o.surname }}</td>
+                  <td>{{ o.address }}</td>
+                  <td>{{ o.total_price }}€</td>
+                  <td>
+                  <div class="d-flex align-items-center">
+                  <a class="btn bgl-warning text-warning" href="javascript:;">PENDING</a>
+                  <div class="dropdown ms-auto">
+                  <div class="btn-link" data-bs-toggle="dropdown">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"></rect><circle fill="#000000" cx="12" cy="5" r="2"></circle><circle fill="#000000" cx="12" cy="12" r="2"></circle><circle fill="#000000" cx="12" cy="19" r="2"></circle></g></svg>
+                  </div>
+                  <div class="dropdown-menu dropdown-menu-end">
+                  <a class="dropdown-item text-black" href="javascript:;">
+                  <svg class="me-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="#209F84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22 4L12 14.01L9 11.01" stroke="#209F84" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Accept order
+                  </a>
+                  <a class="dropdown-item text-black" href="javascript:;">
+                  <svg class="me-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#F24242" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M15 9L9 15" stroke="#F24242" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 9L15 15" stroke="#F24242" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Reject order
+                  </a>
+                  <a class='dropdown-item text-black' href='/phpushtrime/KFC_advanced/public/order-details?id={{ o.order_user_id }}'>
+                  <svg class="me-3" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#6F6F6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 16V12" stroke="#6F6F6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 8H12.01" stroke="#6F6F6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  View Details
+                  </a>
+                  </div>
+                  </div>
+                  </div>
+                  </td>
+                  </tr>
+                  {% endfor %}
+                
+                
+              
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
+</div>
+  </div>
+</div>
+
+{% endblock %}
