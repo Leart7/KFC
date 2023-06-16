@@ -1,0 +1,202 @@
+{% extends "layout/adminLayout.html" %}
+
+{% block title %}Library | Dashboard{% endblock %}
+{% block css %}
+<style>
+  #edit:hover,#delete:hover{
+    cursor:pointer;
+  }
+
+  #edit:hover{
+    color: green;
+  }
+
+  #delete:hover{
+    color: red;
+  }
+  #edit,#delete{
+    font-size:20px;
+  }
+  </style>
+{% endblock %}
+{% block content %}
+
+<div class="content-body">
+  <div class="container-fluid ">
+    <div class="row page-titles mx-0">
+      <div class="col-sm-6 p-md-0 w-100">
+          <div class="welcome-text w-100">
+              <h4 class="text-center">Categories</h4>
+          </div>
+      </div>
+</div>
+      <div class="row ">
+          <div class="col-lg-12 ">
+            <div class="table-responsive " >
+              <table id="example5" class="display mb-4 dataTablesCar">
+                <thead>
+                                        <tr>
+                    <th class="sorting_1 ps-0 pe-0 text-center no-data-img">
+                    </th>
+                                            <th><strong class="font-w700 wspace-no">Category ID</strong></th>
+                                            <th><strong class="font-w700 wspace-no">Category Name</strong></th>
+                                            <th><strong class="font-w700 wspace-no">Number of Products</strong></th>
+                                           <th></th>
+                                           <th></th>
+                                        </tr>
+                                    </thead>
+                <tbody>
+                {% for category in categories %}
+                        <tr>
+                        <td class="sorting_1 p-0 text-center">
+                        </td>
+                        <td>{{ category.id }}</td>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.products_count }}</td>
+                        <td><i class='fa fa-edit' id='edit' data-bs-toggle='modal' data-bs-target='#myModal{{ category.id }}'></i></td>
+                        <td><i class='fa fa-trash' id='delete' data-bs-toggle='modal' data-bs-target='#myModaldel{{ category.id }}' ></i></td>
+                        </tr>
+                        {% endfor %}
+                     
+                      <tr>
+                      <td colspan='6'><button class='btn btn-danger w-100' data-bs-toggle='modal' data-bs-target='#myModal'>ADD CATEGORY</button></td>
+                      </tr>
+                   
+                </tbody>
+              </table>
+            </div>
+
+            <!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+<form class="w-100 " method="post" action="/phpushtrime/KFC_advanced/public/category-add">
+      <div class="mb-3">
+          <label for="categoryname" class="form-label fw-bold">Category Name</label>
+          <input type="text" class="form-control shadow-none" id="categoryname" aria-describedby="emailHelp" placeholder="Category Name" name="categoryname">
+      </div>
+<div class="d-flex justify-content-center">
+<button type="submit" class="btn btn-outline-success w-50 py-3 mb-5 fw-bold" name="add">ADD</button>
+</div>
+     
+  </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+           
+</div>        
+</div>
+      </div>
+{% for category in categories %}
+      <div class='modal' id='myModal{{ category.id }}'>
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+       
+        <!-- Modal Header -->
+        <div class="modal-header">
+        <h4 class="modal-title">EDIT CATEGORY</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+       
+        <!-- Modal body -->
+        <div class="modal-body">
+        <form class="w-100 " method="post" action="/phpushtrime/KFC_advanced/public/category-update">
+        <div class="mb-3">
+          <input type="hidden" name="categoryid" value="{{ category.id }}">
+        <label for="categoryname" class="form-label fw-bold">Category Name</label>
+        <input type='text' class='form-control shadow-none' id='categoryname' aria-describedby='emailHelp' placeholder='Category Name' name='categoryname' value='{{ category.name }}'>
+        </div>
+        <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-outline-success w-50 py-3 mb-5 fw-bold" name="update">UPDATE</button>
+        </div>
+       
+        </form>
+        </div>
+       
+        <!-- Modal footer -->
+        <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+       
+        </div>
+        </div>
+        </div>
+{% endfor %}
+
+{% for category in categories %}
+<div class='modal' id='myModaldel{{ category.id }}'>
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+  <div class="modal-content">
+ 
+  <!-- Modal Header -->
+  <div class="modal-header">
+  <h4 class="modal-title">DELETE CATEGORY</h4>
+  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  </div>
+ 
+  <!-- Modal body -->
+  <div class="modal-body">
+  <form class="w-100 " method="post" action="/phpushtrime/KFC_advanced/public/category-delete">
+  <div class="mb-3">
+    <input type="hidden" name="categoryid" value="{{ category.id }}">
+  <label for="categoryname" class="form-label fw-bold">Category Name</label>
+  <input type='text' disabled class='form-control shadow-none' id='categoryname' aria-describedby='emailHelp' placeholder='Category Name' name='categoryname' value='{{ category.name }}'>
+  </div>
+  <div class="d-flex justify-content-center">
+  <button type="submit" class="btn btn-outline-danger w-50 py-3 mb-5 fw-bold" name="delete">DELETE</button>
+  </div>
+ 
+  </form>
+  </div>
+ 
+  <!-- Modal footer -->
+  <div class="modal-footer">
+  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+  </div>
+ 
+  </div>
+  </div>
+  </div>
+{% endfor %}
+          </div>
+
+      </div>
+  </div>
+</div>
+
+</div>
+<script>
+  (function($) {
+   
+    var table = $('#example5').DataTable({
+      searching: false,
+      paging:true,
+      select: false,
+      //info: false,        
+      lengthChange:false
+     
+    });
+    $('#example tbody').on('click', 'tr', function () {
+      var data = table.row( this ).data();
+     
+    });
+     
+  })(jQuery);
+</script>
+{% endblock %}
