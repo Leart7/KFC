@@ -1,12 +1,6 @@
-import supabase from "./supabase";
-
 export async function getLocations() {
-  const { data, error } = await supabase.from("locations").select("*");
-
-  if (error) {
-    console.error(error);
-    throw new Error("Locations could not be loaded");
-  }
+  const response = await fetch(`https://localhost:7069/api/Location`);
+  let data = await response.json();
 
   const locations = data.map((item) => {
     return {
@@ -17,6 +11,5 @@ export async function getLocations() {
       city: item.city,
     };
   });
-
   return locations;
 }

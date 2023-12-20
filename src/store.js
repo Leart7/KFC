@@ -1,17 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import deliverySlice from "./pages/DeliveryPage/deliverySlice";
-import cartSlice from "./pages/DeliveryPage/cartSlice";
-import querySlice from "./pages/DeliveryPage/querySlice";
-import resQuerySlice from "./pages/RestaurantsPage/resQuerySlice";
-import activeTabSlice from "./pages/RestaurantsPage/activeTabSlice";
-import activeNavTabSlice from "./pages/HomePage/activeNavTabSlice";
-import activeAddressTab from "./pages/Checkout/activeAddressTab";
-import activeMyAccountTabSlice from "./pages/MyAccount/activeMyAccountTabSlice";
+import deliverySlice from "./redux/deliverySlice";
+
+import querySlice from "./redux/querySlice";
+import resQuerySlice from "./redux/resQuerySlice";
+import activeTabSlice from "./redux/activeTabSlice";
+import activeNavTabSlice from "./redux/activeNavTabSlice";
+import activeAddressTab from "./redux/activeAddressTab";
+import activeMyAccountTabSlice from "./redux/activeMyAccountTabSlice";
 
 const store = configureStore({
   reducer: {
     delivery: deliverySlice,
-    cart: cartSlice,
     query: querySlice,
     resQuery: resQuerySlice,
     activeTab: activeTabSlice,

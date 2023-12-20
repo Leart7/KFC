@@ -3,17 +3,20 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Product from "./pages/ProductPage/Product.jsx";
-import DeliveryPage from "./pages/DeliveryPage/DeliveryPage.jsx";
+import Product from "./pages/Product.jsx";
+import DeliveryPage from "./pages/DeliveryPage.jsx";
 import store from "./store.js";
 import { Provider } from "react-redux";
-import HomePage from "./pages/HomePage/HomePage.jsx";
-import RestaurantsPage from "./pages/RestaurantsPage/RestaurantsPage.jsx";
-import Signup from "./pages/authentication/Signup.jsx";
-import Login from "./pages/authentication/Login.jsx";
-import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
-import MyAccountPage from "./pages/MyAccount/MyAccountPage.jsx";
-import ConfirmOrderPage from "./pages/ConfirmOrder.jsx/ConfirmOrderPage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import RestaurantsPage from "./pages/RestaurantsPage.jsx";
+import CheckoutPage from "./pages/CheckoutPage.jsx";
+import MyAccountPage from "./pages/MyAccountPage.jsx";
+import ConfirmOrderPage from "./pages/ConfirmOrderPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import SignupPage from "./pages/SignupPage.jsx";
+import ProtectedRoute from "./ui/ProtectedRoute.jsx";
+import DeliveryHomePage from "./pages/DeliveryHomePage.jsx";
+import DeliveryAddress from "./pages/DeliveryAddress.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,32 +32,45 @@ const router = createBrowserRouter([
         element: <Product />,
       },
       {
-        path: "/delivery",
-        element: <DeliveryPage />,
-      },
-      {
         path: "/restaurants",
         element: <RestaurantsPage />,
       },
       {
-        path: "/checkout",
-        element: <CheckoutPage />,
+        path: "/delivery/homepage",
+        element: <DeliveryHomePage />,
       },
       {
-        path: "/profile",
-        element: <MyAccountPage />,
-      },
-      {
-        path: "/confirm-order",
-        element: <ConfirmOrderPage />,
+        path: "/search/type/delivery/address",
+        element: <DeliveryAddress />,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <LoginPage />,
       },
       {
         path: "/signup",
-        element: <Signup />,
+        element: <SignupPage />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/delivery",
+            element: <DeliveryPage />,
+          },
+          {
+            path: "/checkout",
+            element: <CheckoutPage />,
+          },
+          {
+            path: "/profile",
+            element: <MyAccountPage />,
+          },
+          {
+            path: "/confirm-order",
+            element: <ConfirmOrderPage />,
+          },
+        ],
       },
     ],
   },
