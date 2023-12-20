@@ -1,59 +1,40 @@
-import supabase from "./supabase";
-
 export async function getAddresses(userId) {
-  let { data, error } = await supabase
-    .from("addresses")
-    .select("*")
-    .eq("user", userId)
-    .order("active", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    throw new Error("Addresses could not be loaded");
-  }
-
+  const response = await fetch(`https://localhost:7069/api/Address/${userId}`);
+  const data = await response.json();
   return data;
 }
 
 export async function insertAddress(newAddress) {
-  const { data, error } = await supabase
-    .from("addresses")
-    .insert([{ ...newAddress }])
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Address could not be inserted");
-  }
-
+  const response = await fetch(`https://localhost:7069/api/Address`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(newAddress),
+  });
+  const data = await response.json();
   return data;
 }
 
-export async function updateAddress(id, active) {
-  const { data, error } = await supabase
-    .from("addresses")
-    .update({ active: active })
-    .eq("id", id)
-    .select();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Address could not be updated");
-  }
-
+export async function updateAddress(id, updateAddressObj) {
+  const response = await fetch(`https://localhost:7069/api/Address/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateAddressObj),
+  });
+  const data = await response.json(updateAddressObj);
   return data;
 }
 
 export async function deleteAddress(id) {
-  const { data, error } = await supabase
-    .from("addresses")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Addresses could not be loaded");
-  }
-
+  const response = await fetch(`https://localhost:7069/api/Address/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
   return data;
 }

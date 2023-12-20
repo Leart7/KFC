@@ -1,31 +1,19 @@
-import supabase from "./supabase";
-
 export async function getLastOrderUser(userId) {
-  let { data, error } = await supabase
-    .from("ordersUsers")
-    .select("*")
-    .eq("user", userId)
-    .order("id", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    throw new Error("OrderUser could not be fetched");
-  }
-
-  return data[0];
+  const response = await fetch(
+    `https://localhost:7069/api/OrderUser/${userId}`,
+  );
+  const data = await response.json();
+  return data;
 }
 
-export async function insertOrderUser(newOrderUser) {
-  const { data, error } = await supabase
-    .from("ordersUsers")
-    .insert([{ ...newOrderUser }])
-    .select()
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("OrderUser could not be inserted");
-  }
-
+export async function insertOrderuser(userId) {
+  const response = await fetch(`https://localhost:7069/api/OrderUser`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userId),
+  });
+  const data = await response.json();
   return data;
 }

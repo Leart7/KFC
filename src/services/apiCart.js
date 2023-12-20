@@ -1,65 +1,62 @@
-import supabase from "./supabase";
-
 export async function getCart(userId) {
-  let { data, error } = await supabase
-    .from("carts")
-    .select("*, product(name, price, id, image, menu)")
-    .eq("user", userId);
-
-  if (error) {
-    console.error(error);
-    throw new Error("Cart products could not be loaded");
-  }
-
+  const response = await fetch(
+    `https://localhost:7069/api/Cart?userId=${userId}`,
+  );
+  const data = await response.json();
   return data;
 }
 
-export async function insertCart(newCart) {
-  const { data, error } = await supabase
-    .from("carts")
-    .insert([{ ...newCart }])
-    .select()
-    .single();
+export async function insertCart(cartObj) {
+  const response = await fetch(`https://localhost:7069/api/Cart`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+    body: JSON.stringify(cartObj),
+  });
 
-  if (error) {
-    console.error(error);
-    throw new Error("Products could not be added to cart");
-  }
-
+  const data = await response.json();
   return data;
 }
 
-export async function updateCart(id, quantity, comments, addOns, menuAddOns) {
-  const { data, error } = await supabase
-    .from("carts")
-    .update({
-      quantity: quantity,
-      comments: comments,
-      addOns: addOns,
-      menuAddOns: menuAddOns,
-    })
-    .eq("id", id)
-    .select();
+export async function updateCart(id, updateCartObj) {
+  const url = `https://localhost:7069/api/Cart/${id}`;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updateCartObj),
+  });
 
-  if (error) {
-    console.error(error);
-    throw new Error("Couldnt update cart item");
-  }
-
+  const data = await response.json();
+  console.log(data);
   return data;
 }
 
-export async function deleteCart(id, userId) {
-  const { data, error } = await supabase
-    .from("carts")
-    .delete()
-    .eq("id", id)
-    .eq("user", userId);
+export async function deleteCart(id) {
+  const response = await fetch(`https://localhost:7069/api/Cart/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "Application/json",
+    },
+  });
 
-  if (error) {
-    console.error(error);
-    throw new Error("Couldnt delete cart item");
-  }
+  const data = await response.json();
+  return data;
+}
 
+export async function deleteAllCartItems(userId) {
+  const response = await fetch(
+    `https://localhost:7069/api/Cart/delete-all?userId=${userId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  const data = await response.json();
   return data;
 }

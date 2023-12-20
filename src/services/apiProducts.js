@@ -1,27 +1,11 @@
-import supabase from "./supabase";
-
-export async function getProducts() {
-  let { data, error } = await supabase.from("products").select("*");
-
-  if (error) {
-    console.error(error);
-    throw new Error("Products could not be loaded");
-  }
-
+export async function getProduct(id) {
+  const response = await fetch(`https://localhost:7069/api/Product/${id}`);
+  const data = await response.json();
   return data;
 }
 
-export async function getProduct(id) {
-  let { data, error } = await supabase
-    .from("products")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error(error);
-    throw new Error("Product could not be loaded");
-  }
-
+export async function getProducts() {
+  const response = await fetch(`https://localhost:7069/api/Product`);
+  const data = await response.json();
   return data;
 }

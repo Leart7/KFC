@@ -1,63 +1,91 @@
-import supabase from "./supabase";
+import { jwtDecode } from "jwt-decode";
 
-export async function signup({ firstName, email, password }) {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        firstName,
-      },
+export async function signup(signupObj) {
+  const response = await fetch(`https://localhost:7069/api/Auth/Register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify(signupObj),
   });
 
-  if (error) throw new Error(error.message);
-
+  const data = await response.json();
   return data;
 }
 
-export async function login({ email, password }) {
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
+export async function login(loginObj) {
+  const response = await fetch("https://localhost:7069/api/Auth/Login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(loginObj),
   });
+  const data = await response.json();
+  return data;
+}
 
-  if (error) throw new Error(error.message);
+const isTokenValid = (token) => {
+  try {
+    // Decode the token (you might use a library like jsonwebtoken)
+    const decodedToken = jwtDecode(token);
 
+    // Check if the token is not expired
+    return decodedToken.exp > Math.floor(Date.now() / 1000);
+  } catch (error) {
+    // Token decoding failed or expired
+    return false;
+  }
+};
+
+export async function getUserByEmail(email) {
+  const response = await fetch(`https://localhost:7069/api/Auth/${email}`);
+  const data = await response.json();
   return data;
 }
 
 export async function getCurrentUser() {
-  const { data: session } = await supabase.auth.getSession();
-  if (!session.session) return null;
+  if (!localStorage.getItem("JwtToken")) return null;
 
-  const { data, error } = await supabase.auth.getUser();
+  const token = localStorage.getItem("JwtToken");
 
-  if (error) throw new Error(error.message);
+  if (token && isTokenValid(token)) {
+    const user = jwtDecode(token);
 
-  return data?.user;
+    const email =
+      user[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+      ];
+
+    const userData = getUserByEmail(email);
+
+    return userData;
+  } else {
+    localStorage.removeItem("JwtToken");
+  }
 }
 
 export async function logout() {
-  const { error } = await supabase.auth.signOut();
-
-  if (error) throw new Error(error.message);
+  return null;
 }
 
-export async function updateCurrentUser({
-  password,
-  firstName,
-  lastName,
-  phoneNumber,
-}) {
-  let updateData = {
-    password,
-    data: { firstName, lastName, phoneNumber },
-  };
+export async function updateCurrentUser(userId, updateUserObj) {
+  const formData = new FormData();
 
-  const { data, error } = await supabase.auth.updateUser(updateData);
+  // Append form data fields
+  for (const key in updateUserObj) {
+    formData.append(key, updateUserObj[key]);
+  }
 
-  if (error) throw new Error(error.message);
+  const response = await fetch(`https://localhost:7069/api/Auth/${userId}`, {
+    method: "PUT",
+    body: formData,
+  });
 
+  if (response.status === 400 || response.status === 500) {
+    throw new Error("Could not update personal data!");
+  }
+
+  const data = await response.json();
   return data;
 }
