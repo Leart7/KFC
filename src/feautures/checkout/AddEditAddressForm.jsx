@@ -136,23 +136,21 @@ function AddEditAddressForm({
       return;
     }
 
-    if (addresses?.length !== 0) {
-      if (from === "edit") {
-        updateAddress({
-          id: existingAddress.id,
-          updateAddressObj: {
-            addressName: address || data.address,
-            houseNumber: data.houseNumber,
-            addressNotes: data.addressNotes,
-            type: data.type,
-            latitude: data.latitude,
-            longitude: data.longitude,
-          },
-        });
-      } else {
-        insertAddress(data);
-        from === "deliveryHome" && navigate(`/search/type/delivery/address`);
-      }
+    if (from === "edit") {
+      updateAddress({
+        id: existingAddress.id,
+        updateAddressObj: {
+          addressName: address || data.address,
+          houseNumber: data.houseNumber,
+          addressNotes: data.addressNotes,
+          type: data.type,
+          latitude: data.latitude,
+          longitude: data.longitude,
+        },
+      });
+    } else {
+      insertAddress(data);
+      from === "deliveryHome" && navigate(`/search/type/delivery/address`);
     }
     onClick();
     if (from === "navbar") {
