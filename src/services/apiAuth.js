@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { jwtToken } from "./jwtToken";
 
 export async function signup(signupObj) {
   const response = await fetch(`https://localhost:7069/api/Auth/Register`, {
@@ -39,7 +40,12 @@ const isTokenValid = (token) => {
 };
 
 export async function getUserByEmail(email) {
-  const response = await fetch(`https://localhost:7069/api/Auth/${email}`);
+  const response = await fetch(`https://localhost:7069/api/Auth/${email}`, {
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+      "Content-Type": "application/json",
+    },
+  });
   const data = await response.json();
   return data;
 }
@@ -80,6 +86,10 @@ export async function updateCurrentUser(userId, updateUserObj) {
   const response = await fetch(`https://localhost:7069/api/Auth/${userId}`, {
     method: "PUT",
     body: formData,
+    headers: {
+      Authorization: `Bearer ${jwtToken}`,
+      "Content-Type": "application/json",
+    },
   });
 
   if (response.status === 400 || response.status === 500) {
